@@ -7,8 +7,7 @@ public class Main {
         String fileNameDefined = "source/Задача ВС Java Сбер.csv";
         File file = new File(fileNameDefined);
         try (BufferedReader reader = new BufferedReader(new FileReader(fileNameDefined))) {
-            String line;
-            while ((line = reader.readLine()) != null) {
+            while ((reader.readLine()) != null) {
                 counter++;
             }
         } catch (IOException e) {
@@ -23,7 +22,7 @@ public class Main {
                 for (int i = 0; i < inLine.lines().count(); i++) {
                     Scanner inWord = new Scanner(inLine);
                     inWord.useDelimiter(";");
-                    int id = inWord.nextInt();
+                    inWord.nextInt();
                     city[i] = new City(inWord.next(), inWord.next(), inWord.next(),
                             inWord.next(), (inWord.hasNext()) ? inWord.next() : "");
                     System.out.println(city[i].ShowObject());
@@ -53,12 +52,11 @@ class City {
     }
 
     public String ShowObject() {
-        String outLine = "City{name ='" + this.name +
+        return "City{name ='" + this.name +
                 "', region='" + this.region +
                 "', district='" + this.district +
                 "', population='" + this.population +
                 "', foundation='" + this.foundation + "'}";
-        return outLine;
     }
 
 }
