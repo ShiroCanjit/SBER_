@@ -44,7 +44,7 @@ public class Main {
 }
 
 class City implements Comparable<City>{
-    private String name, region, district, foundation, population;
+     String name, region, district, foundation, population;
 
     public City(String name, String region, String district, String population, String foundation) {
         this.name = name;
