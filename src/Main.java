@@ -1,4 +1,5 @@
 import java.io.*;
+import java.util.Arrays;
 import java.util.Scanner;
 
 public class Main {
@@ -16,21 +17,23 @@ public class Main {
 
         try {
             Scanner inputStream = new Scanner(file);
-            City[] city = new City[counter];
+            City[] cities = new City[counter];
+            counter=0;
             while (inputStream.hasNext()) {
                 String inLine = inputStream.nextLine();
-                for (int i = 0; i < inLine.lines().count(); i++) {
                     Scanner inWord = new Scanner(inLine);
                     inWord.useDelimiter(";");
                     inWord.nextInt();
-                    city[i] = new City(inWord.next(), inWord.next(), inWord.next(),
+                    cities[counter] = new City(inWord.next(), inWord.next(), inWord.next(),
                             inWord.next(), (inWord.hasNext()) ? inWord.next() : "");
-                    System.out.println(city[i].ShowObject());
+                   // System.out.println(cities[counter].toString());
                     inWord.close();
+                counter++;
                 }
-            }
             inputStream.close();
 
+
+            System.out.println(Arrays.toString(cities));
 
         } catch (FileNotFoundException e) {
             throw new RuntimeException(e);
@@ -40,8 +43,8 @@ public class Main {
     }
 }
 
-class City {
-    String name, region, district, foundation, population;
+class City implements Comparable<City>{
+    private String name, region, district, foundation, population;
 
     public City(String name, String region, String district, String population, String foundation) {
         this.name = name;
@@ -50,8 +53,19 @@ class City {
         this.population = population;
         this.foundation = foundation;
     }
-
-    public String ShowObject() {
+    public String getName(){
+        return name;
+    }
+    public String getDistrict(){
+        return district;
+    }
+    @Override
+    public int compareTo(City o) {
+        return this.name.compareTo(o.getName());
+    }
+    @Override
+    public String toString()
+    {
         return "City{name ='" + this.name +
                 "', region='" + this.region +
                 "', district='" + this.district +
