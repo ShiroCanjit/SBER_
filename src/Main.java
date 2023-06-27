@@ -33,7 +33,7 @@ public class Main {
         int chooser = inputStream.nextInt();
         switch (chooser) {
             case 1 -> Collections.sort(cities);
-            case 2 -> cities.sort(new comparatorByDistrictName().thenComparing(City::getName));
+            case 2 -> cities.sort(new comparatorByDistrict().thenComparing(City::getName));
             default -> System.out.println("Ошибка Вода");
         }
         System.out.println(cities);
@@ -73,7 +73,7 @@ class City implements Comparable<City> {
         return name.compareTo(o.name);
     }
 }
-class comparatorByDistrictName implements Comparator<City>{
+class comparatorByDistrict implements Comparator<City>{
     @Override
     public int compare(City o1, City o2) {
         return o1.getDistrict().compareTo( o2.getDistrict());
