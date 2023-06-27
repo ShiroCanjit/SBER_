@@ -1,41 +1,28 @@
 import java.io.*;
-import java.util.Arrays;
-import java.util.Comparator;
-import java.util.Objects;
-import java.util.Scanner;
+import java.util.*;
 
 public class Main {
-    static City[] cities;
-
+    static ArrayList<City> cities;
     public static void main(String[] args) {
-        int counter = 0;
         String fileNameDefined = "source/Задача ВС Java Сбер.csv";
         File file = new File(fileNameDefined);
-        try (BufferedReader reader = new BufferedReader(new FileReader(fileNameDefined))) {
-            while ((reader.readLine()) != null) {
-                counter++;
-            }
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
-        cities = new City[counter];
         Scanner inputStream;
         try {
             inputStream = new Scanner(file);
-            counter = 0;
+            cities = new ArrayList<>();
             while (inputStream.hasNext()) {
                 String inLine = inputStream.nextLine();
                 Scanner inWord = new Scanner(inLine);
                 inWord.useDelimiter(";");
                 inWord.nextInt();
-                cities[counter] = new City(inWord.next(), inWord.next(), inWord.next(),
+                City currentCity = new City(inWord.next(), inWord.next(), inWord.next(),
                         inWord.next(), (inWord.hasNext()) ? inWord.next() : "");
-                System.out.println(cities[counter].toString());
+                cities.add(currentCity);
+                System.out.println(currentCity);
                 inWord.close();
-                counter++;
             }
             inputStream.close();
-
+            //System.out.println(cities);
 
         } catch (FileNotFoundException e) {
             throw new RuntimeException(e);
@@ -45,31 +32,16 @@ public class Main {
                 "– федеральному округу и наименованию города");
         int chooser = inputStream.nextInt();
         switch (chooser) {
-            case 1 -> nameCompare();
-            case 2 -> districtNameCompare();
+            case 1 -> Collections.sort(cities);
+            case 2 -> cities.sort(new comparatorByDistrictName().thenComparing(City::getName));
             default -> System.out.println("Ошибка Вода");
         }
-        System.out.println(Arrays.toString(cities));
+        System.out.println(cities);
 
-    }
-
-    static void districtNameCompare() {
-        nameCompare();
-        Arrays.sort(cities, (first, second) -> {
-            if (!Objects.equals(first.getDistrict(), second.getDistrict())) {
-                return first.getDistrict().compareTo(second.getDistrict());
-            }
-            return first.getName().compareTo(second.getName());
-        });
-    }
-
-    static void nameCompare() {
-        Arrays.sort(cities, Comparator.comparing(City::getName));
     }
 
 }
-
-class City {
+class City implements Comparable<City> {
     String name, region, district, foundation, population;
 
     public City(String name, String region, String district, String population, String foundation) {
@@ -96,6 +68,14 @@ class City {
                 "', population='" + this.population +
                 "', foundation='" + this.foundation + "'}";
     }
-
-
+    @Override
+    public int compareTo(City o) {
+        return name.compareTo(o.name);
+    }
+}
+class comparatorByDistrictName implements Comparator<City>{
+    @Override
+    public int compare(City o1, City o2) {
+        return o1.getDistrict().compareTo( o2.getDistrict());
+    }
 }
