@@ -21,6 +21,7 @@ public class Main {
                 inWord.close();
             }
             inputStream.close();
+            //System.out.println(cities);
 
         } catch (FileNotFoundException e) {
             throw new RuntimeException(e);
