@@ -1,33 +1,24 @@
 import java.io.*;
+import java.util.ArrayList;
 import java.util.Scanner;
 
 public class Main {
     public static void main(String[] args) {
-        int counter = 0;
         String fileNameDefined = "source/Задача ВС Java Сбер.csv";
         File file = new File(fileNameDefined);
-        try (BufferedReader reader = new BufferedReader(new FileReader(fileNameDefined))) {
-            while ((reader.readLine()) != null) {
-                counter++;
-            }
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
-
         try {
             Scanner inputStream = new Scanner(file);
-            City[] cities = new City[counter];
-            counter = 0;
+            ArrayList<City> cities = new ArrayList<>();
             while (inputStream.hasNext()) {
                 String inLine = inputStream.nextLine();
-                    Scanner inWord = new Scanner(inLine);
-                    inWord.useDelimiter(";");
-                    inWord.nextInt();
-                    cities[counter] = new City(inWord.next(), inWord.next(), inWord.next(),
-                            inWord.next(), (inWord.hasNext()) ? inWord.next() : "");
-                    System.out.println(cities[counter].toString());
-                    inWord.close();
-                    counter++;
+                Scanner inWord = new Scanner(inLine);
+                inWord.useDelimiter(";");
+                inWord.nextInt();
+                City currentCity = new City(inWord.next(), inWord.next(), inWord.next(),
+                        inWord.next(), (inWord.hasNext()) ? inWord.next() : "");
+                cities.add(currentCity);
+                System.out.println(currentCity);
+                inWord.close();
             }
             inputStream.close();
 
@@ -37,8 +28,9 @@ public class Main {
     }
 
 }
-class City  {
-      String name, region, district, foundation, population;
+
+class City {
+    String name, region, district, foundation, population;
 
     public City(String name, String region, String district, String population, String foundation) {
         this.name = name;
@@ -47,9 +39,9 @@ class City  {
         this.population = population;
         this.foundation = foundation;
     }
+
     @Override
-    public String toString()
-    {
+    public String toString() {
         return "City{name ='" + this.name +
                 "', region='" + this.region +
                 "', district='" + this.district +
