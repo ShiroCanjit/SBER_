@@ -69,7 +69,7 @@ public class Main {
 
 }
 
-class City implements Comparable<City> {
+class City {
     String name, region, district, foundation, population;
 
     public City(String name, String region, String district, String population, String foundation) {
@@ -86,11 +86,6 @@ class City implements Comparable<City> {
 
     public String getDistrict() {
         return district;
-    }
-
-    @Override
-    public int compareTo(City o) {
-        return this.name.compareTo(o.getName());
     }
 
     @Override
